@@ -64,7 +64,7 @@ These instructions will get you a copy of the project up and running on your loc
 1. Run the application.
 
     ```
-    python detect_drowsiness.py
+    python detect_drowsiness.py --shape-predictor shape_predictor_68_face_landmarks.dat --alarm alarm.wav
     ```
 
 ## Built With
