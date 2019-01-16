@@ -144,8 +144,8 @@ These instructions will get you a copy of the project up and running on your loc
     
  1. Next we define a few consants for the application:
  
- ```
- # define two constants, one for the eye aspect ratio to indicate
+    ```
+    # define two constants, one for the eye aspect ratio to indicate
 	# blink and then a second constant for the number of consecutive
 	# frames the eye must be below the threshold for to set off the
 	# alarm
@@ -156,31 +156,30 @@ These instructions will get you a copy of the project up and running on your loc
 	# indicate if the alarm is going off
 	COUNTER = 0
 	ALARM_ON = False
- ```
-
+    ```
     
  1. The dlib library ships with a Histogram of Oriented Gradients-based face detector along with a facial landmark predictor — we instantiate both of these in the following code block:
  
- ```
+    ```
 	# initialize dlib's face detector (HOG-based) and then create
 	# the facial landmark predictor
 	print("[INFO] loading facial landmark predictor...")
 	detector = dlib.get_frontal_face_detector()
 	predictor = dlib.shape_predictor(args["shape_predictor"])
-```
+    ```
 
  1. Therefore, to extract the eye regions from a set of facial landmarks, we simply need to know the correct array slice indexes:
 
-```
+    ```
 # grab the indexes of the facial landmarks for the left and
 # right eye, respectively
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
-```
+    ```
 
  1. Using these indexes, we’ll easily be able to extract the eye regions via an array slice. We are now ready to start the core of our drowsiness detector:
 
-```
+   ```
 # start the video stream thread
 print("[INFO] starting video stream thread...")
 vs = VideoStream(src=args["webcam"]).start()
@@ -197,11 +196,11 @@ while True:
 
 	# detect faces in the grayscale frame
 	rects = detector(gray, 0)
-```
+    ```
 
  1. The next step is to apply facial landmark detection to localize each of the important regions of the face:
 
-```
+    ```
 # loop over the face detections
 	for rect in rects:
 		# determine the facial landmarks for the face region, then
@@ -219,22 +218,22 @@ while True:
 
 		# average the eye aspect ratio together for both eyes
 		ear = (leftEAR + rightEAR) / 2.0
-```
+    ```
 
  1. We can then visualize each of the eye regions on our frame  by using the cv2.drawContours  function below — this is often helpful when we are trying to debug our script and want to ensure that the eyes are being correctly detected and localized:
 
-```
+    ```
 # compute the convex hull for the left and right eye, then
 		# visualize each of the eyes
 		leftEyeHull = cv2.convexHull(leftEye)
 		rightEyeHull = cv2.convexHull(rightEye)
 		cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
 		cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
-```
+    ```
 
  1. Finally, we are now ready to check to see if the person in our video stream is starting to show symptoms of drowsiness:
 
-```
+    ```
 		# check to see if the eye aspect ratio is below the blink
 		# threshold, and if so, increment the blink frame counter
 		if ear < EYE_AR_THRESH:
@@ -265,11 +264,11 @@ while True:
 		else:
 			COUNTER = 0
 			ALARM_ON = False
-```
+    ```
 
  1. The final code block in our drowsiness detector handles displaying the output frame  to our screen:
-
-```
+ 
+    ```
 		# draw the computed eye aspect ratio on the frame to help
 		# with debugging and setting the correct eye aspect ratio
 		# thresholds and frame counters
@@ -287,7 +286,7 @@ while True:
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
-```
+    ```
 
  1. Run the application.
 
