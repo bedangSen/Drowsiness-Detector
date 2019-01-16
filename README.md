@@ -144,8 +144,8 @@ These instructions will get you a copy of the project up and running on your loc
     
  1. Next we define a few consants for the application:
  
-```
-	# define two constants, one for the eye aspect ratio to indicate
+ ```
+ # define two constants, one for the eye aspect ratio to indicate
 	# blink and then a second constant for the number of consecutive
 	# frames the eye must be below the threshold for to set off the
 	# alarm
@@ -156,10 +156,8 @@ These instructions will get you a copy of the project up and running on your loc
 	# indicate if the alarm is going off
 	COUNTER = 0
 	ALARM_ON = False
-```
-    
-    1. <b>EYE_AR_THRESH</b> - This sets the threshold for what counts as closed eyes. If the eye aspect ratio falls below this value, a counter initiates for the number of frames the eye has been closed. 
-    1. <b>EYE_AR_CONSEC_FRAMES</b> - This sets the number of frames before the alarm is sounded. For a more sensitive application, set this value to a lower amount. For a less sensitive application, set the value to higher amount.
+ ```
+
     
  1. The dlib library ships with a Histogram of Oriented Gradients-based face detector along with a facial landmark predictor — we instantiate both of these in the following code block:
  
@@ -171,7 +169,7 @@ These instructions will get you a copy of the project up and running on your loc
 	predictor = dlib.shape_predictor(args["shape_predictor"])
 ```
 
-1. Therefore, to extract the eye regions from a set of facial landmarks, we simply need to know the correct array slice indexes:
+ 1. Therefore, to extract the eye regions from a set of facial landmarks, we simply need to know the correct array slice indexes:
 
 ```
 # grab the indexes of the facial landmarks for the left and
@@ -180,7 +178,7 @@ These instructions will get you a copy of the project up and running on your loc
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 ```
 
-1. Using these indexes, we’ll easily be able to extract the eye regions via an array slice. We are now ready to start the core of our drowsiness detector:
+ 1. Using these indexes, we’ll easily be able to extract the eye regions via an array slice. We are now ready to start the core of our drowsiness detector:
 
 ```
 # start the video stream thread
@@ -201,7 +199,7 @@ while True:
 	rects = detector(gray, 0)
 ```
 
-1. The next step is to apply facial landmark detection to localize each of the important regions of the face:
+ 1. The next step is to apply facial landmark detection to localize each of the important regions of the face:
 
 ```
 # loop over the face detections
@@ -223,7 +221,7 @@ while True:
 		ear = (leftEAR + rightEAR) / 2.0
 ```
 
-1. We can then visualize each of the eye regions on our frame  by using the cv2.drawContours  function below — this is often helpful when we are trying to debug our script and want to ensure that the eyes are being correctly detected and localized:
+ 1. We can then visualize each of the eye regions on our frame  by using the cv2.drawContours  function below — this is often helpful when we are trying to debug our script and want to ensure that the eyes are being correctly detected and localized:
 
 ```
 # compute the convex hull for the left and right eye, then
@@ -234,7 +232,7 @@ while True:
 		cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 ```
 
-1. Finally, we are now ready to check to see if the person in our video stream is starting to show symptoms of drowsiness:
+ 1. Finally, we are now ready to check to see if the person in our video stream is starting to show symptoms of drowsiness:
 
 ```
 		# check to see if the eye aspect ratio is below the blink
@@ -269,7 +267,7 @@ while True:
 			ALARM_ON = False
 ```
 
-1. The final code block in our drowsiness detector handles displaying the output frame  to our screen:
+ 1. The final code block in our drowsiness detector handles displaying the output frame  to our screen:
 
 ```
 		# draw the computed eye aspect ratio on the frame to help
@@ -291,7 +289,7 @@ cv2.destroyAllWindows()
 vs.stop()
 ```
 
-1. Run the application.
+ 1. Run the application.
 
     ```
     python detect_drowsiness.py --shape-predictor shape_predictor_68_face_landmarks.dat --alarm alarm.wav
